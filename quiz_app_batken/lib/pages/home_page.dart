@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app_batken/data/local_data/quiz_data.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Kyrgyzstanda 7 oblast barby?',
+              QuizData().surrolorJooptor[1].suroo!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 32,
