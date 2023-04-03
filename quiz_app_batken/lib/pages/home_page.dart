@@ -9,20 +9,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> onunchuKlass = ['Temurlan', 'Erzhan', 'Aikokul'];
-
-  List<int> alganBaalary = [4, 5, 4];
-  List<int> okuuchular = [
-    2,
-  ];
   List<Icon> icons = [];
+  void jooptuTeksher(bool koldonuuchununJoobu) {
+    final programmistJoop = quizData.jooptuAlipKel();
+    if (koldonuuchununJoobu == programmistJoop) {
+      icons.add(
+        Icon(
+          Icons.check,
+          size: 35,
+          color: Colors.green,
+        ),
+      );
+    } else {
+      icons.add(
+        Icon(
+          Icons.close,
+          size: 35,
+          color: Colors.red,
+        ),
+      );
+    }
+
+    quizData.otkoz();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    onunchuKlass.add('Gulaiym');
-    onunchuKlass.add('Belek');
-    onunchuKlass.remove('Temurlan');
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
@@ -34,28 +47,21 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              QuizData().surrolorJooptor[1].suroo!,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            quizData.suroonuAlipKel() == 'Suroolor buttu!'
+                ? restart()
+                : Text(
+                    quizData.suroonuAlipKel()!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
             SizedBox(
               height: 30,
             ),
             InkWell(
-              onTap: () {
-                icons.add(
-                  Icon(
-                    Icons.check,
-                    size: 50,
-                    color: Colors.green,
-                  ),
-                );
-                setState(() {});
-              },
+              onTap: () => jooptuTeksher(true),
               child: Container(
                 color: Color(0xff4CB050),
                 child: Padding(
@@ -71,19 +77,48 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              color: Colors.red,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 96, vertical: 12),
-                child: Text(
-                  'Tuura emes',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+            InkWell(
+              onTap: () {
+                jooptuTeksher(false);
+              },
+              child: Container(
+                color: Colors.red,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 96, vertical: 12),
+                  child: Text(
+                    'Tuura emes',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                  ),
                 ),
               ),
             ),
             Row(children: icons)
           ],
+        ),
+      ),
+    );
+  }
+
+  InkWell restart() {
+    return InkWell(
+      onTap: () {
+        quizData.restart();
+        quizData.suroonuAlipKel();
+        icons = [];
+        setState(() {});
+      },
+      child: Container(
+        height: 100,
+        width: 300,
+        color: Colors.red,
+        child: Center(
+          child: Text(
+            'Suroolor buttu artka kait!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 35, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
